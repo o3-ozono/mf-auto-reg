@@ -6,10 +6,6 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import base64
 import re
-from dotenv import load_dotenv
-
-# .envファイルから環境変数を読み込む
-load_dotenv()
 
 # Gmail APIのスコープ
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
@@ -29,9 +25,11 @@ def get_gmail_service():
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
+
         # 認証情報をtoken.jsonファイルに保存する
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
+
     try:
         # Gmail APIのサービスインスタンスを作成する
         service = build('gmail', 'v1', credentials=creds)
