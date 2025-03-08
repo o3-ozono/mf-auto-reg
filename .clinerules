@@ -2,3 +2,21 @@
 
 # テスト
 # 関数やクラスを追加・修正した場合は、必ず単体テストを追加する。
+
+# Pythonプロジェクト
+# Pythonプロジェクトを作成する場合は、必ずuvを使用して仮想環境を作成し、依存関係をpyproject.tomlに出力する。
+# 仮想環境の作成: uv venv
+# 仮想環境の有効化: source .venv/bin/activate
+# 依存関係の追加: poetry add <依存関係名>
+
+# gitignore
+# Pythonプロジェクトを作成する場合は、gitignoreにpythonプロジェクトでよく除外されるファイルを追記する。
+# *.pyc
+# *.pyo
+# *.pyd
+# __pycache__/
+# .venv/
+# venv/
+# dist/
+# build/
+# *.egg-info/

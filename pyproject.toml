@@ -1,0 +1,15 @@
+[project]
+name = "mf-auto-reg"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "o3-ozono",email = "ee065195@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "google-api-python-client (>=2.163.0,<3.0.0)",
+    "google-auth-httplib2 (>=0.2.0,<0.3.0)",
+    "google-auth-oauthlib (>=1.2.1,<2.0.0)",
+    "python-dotenv (>=1.0.1,<2.0.0)"
+]
