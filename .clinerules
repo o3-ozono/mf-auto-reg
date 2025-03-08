@@ -1,22 +1,28 @@
 # Cline Rules
 
 # テスト
-# 関数やクラスを追加・修正した場合は、必ず単体テストを追加する。
+- 関数やクラスを追加・修正した場合は、必ず単体テストを追加する。
 
 # Pythonプロジェクト
-# Pythonプロジェクトを作成する場合は、必ずuvを使用して仮想環境を作成し、依存関係をpyproject.tomlに出力する。
-# 仮想環境の作成: uv venv
-# 仮想環境の有効化: source .venv/bin/activate
-# 依存関係の追加: poetry add <依存関係名>
+- Pythonプロジェクトを作成する場合は、必ずuvを使用して仮想環境を作成し、依存関係をpyproject.tomlに出力する。
+- 仮想環境の作成: uv venv
+- 仮想環境の有効化: source .venv/bin/activate
+- 依存関係の追加: poetry add <依存関係名>
+
+# Git
+- プロジェクトを作成する場合は、必ずgitリポジトリを作成し、リモートリポジトリにプッシュする
+- なにか作業をするときは必ずfeatureブランチを作成し、作業を行う
+  - ブランチ名は、作業内容をわかりやすく表すようにする。英語のハイフンつなぎで記述する
+  - 一つの作業ごとにcommitを行う。commitメッセージは、作業内容をわかりやすく表すようにする。こまめにpushするようにする
 
 # gitignore
-# Pythonプロジェクトを作成する場合は、gitignoreにpythonプロジェクトでよく除外されるファイルを追記する。
-# *.pyc
-# *.pyo
-# *.pyd
-# __pycache__/
-# .venv/
-# venv/
-# dist/
-# build/
-# *.egg-info/
+- Pythonプロジェクトを作成する場合は、gitignoreにpythonプロジェクトでよく除外されるファイルを追記する。
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.venv/
+venv/
+dist/
+build/
+*.egg-info/

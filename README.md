@@ -40,14 +40,8 @@ This script automates the process of extracting transaction details (date, amoun
 ## Usage
 
 1.  Create a `credentials.json` file. This file can be downloaded after creating an OAuth 2.0 client ID in the Google Cloud Platform.
-2.  Create a `.env` file and add your Gmail API credentials:
 
-    ```
-    CLIENT_ID=your_client_id
-    CLIENT_SECRET=your_client_secret
-    ```
-
-3.  Run the script:
+2.  Run the script:
 
     ```bash
     uv run gmail_to_moneyforward.py
