@@ -1,0 +1,100 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Detailed development workflow and coding guidelines
+globs: "**/*.ts,**/*.js,**/*.tsx,**/*.jsx"
+alwaysApply: true
+---
+
+# Development Workflow & Coding Guidelines
+
+## Development Environment Setup
+
+- Node.js 18 or higher required
+- Use npm for package management
+- Setup local environment with `.env` file based on the template
+- For local development, run Playwright MCP separately with:
+  ```bash
+  npx @playwright/mcp@latest
+  ```
+
+## TypeScript Guidelines
+
+- Use strict type checking mode
+- Define interfaces for all data structures
+- Use type guards for runtime type checking
+- Prefer functional programming patterns where appropriate
+- Use async/await for asynchronous operations
+
+## Mastra Node Development
+
+- Create nodes in `src/nodes/` directory
+- Follow this template for new nodes:
+
+```typescript
+import { Node, NodeConfig } from 'mastra';
+
+interface MyCustomNodeConfig extends NodeConfig {
+  // Define custom configuration properties
+  customProperty: string;
+}
+
+export class MyCustomNode extends Node<MyCustomNodeConfig> {
+  async execute(context: any) {
+    try {
+      // Node implementation
+      const result = await this.processData(context);
+      
+      // Return updated context
+      return { ...context, result };
+    } catch (error) {
+      // Error handling
+      console.error('Error in MyCustomNode:', error);
+      throw error;
+    }
+  }
+  
+  private async processData(context: any) {
+    // Implementation
+  }
+}
+```
+
+## Error Handling
+
+- Use try/catch blocks in all async functions
+- Log errors with appropriate context
+- Propagate errors to the Mastra engine where appropriate
+- Implement node-specific error recovery when possible
+
+## Testing Strategy
+
+- Unit tests for all nodes in `tests/nodes/`
+- Integration tests for workflows in `tests/workflows/`
+- **E2E tests are mandatory** for all user-facing features in `tests/e2e/`
+- E2E tests should be implemented using Playwright
+- E2E tests should cover the entire workflow from email detection to MoneyForward registration
+- Mock external dependencies (API calls, database) for unit and integration tests
+- Use real services with test accounts for E2E tests where possible
+- All test environments should be isolated and cleaned up after test runs
+- Test edge cases and error scenarios
+
+## Documentation
+
+- Maintain workflow documentation in `docs/` directory
+- Document API endpoints and data structures
+- Keep architecture.md and README.md updated
+- Use TSDoc comments for all exported functions, classes, and interfaces
+
+## Code Review Process
+
+- All PRs require at least one review
+- CI must pass (tests, lint) before merging
+- Reviewers should check for:
+  - Code quality and adherence to style
+  - Test coverage
+  - Documentation
+  - Security considerations

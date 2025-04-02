@@ -1,4 +1,4 @@
-# Architecture Documentation (Mastra Version)
+# Architecture Documentation
 
 ## System Overview
 This document describes the architecture of the mf-auto-reg system, which uses the Mastra framework to automatically register ANA Pay and Rakuten Pay email notifications in MoneyForward.

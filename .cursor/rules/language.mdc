@@ -1,0 +1,56 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Development rules for mf-auto-reg project
+globs: "**/*"
+alwaysApply: true
+---
+
+# mf-auto-reg Development Rules
+
+## Code Style & Structure
+
+- **TypeScript**: Use TypeScript for all JavaScript code
+- **Linting**: Follow ESLint and Prettier configurations
+- **Documentation**: Document all classes, functions, and modules with JSDoc
+- **Testing**: Write unit tests for all new functionality
+
+## Project Architecture
+
+- Follow the Mastra framework architecture
+- Implement custom nodes by extending the Node class
+- Use declarative workflow definitions in YAML files
+
+## Development Workflow
+
+- Create feature branches from `main` using the format: `feature/short-description`
+- Create bugfix branches using the format: `fix/issue-description`
+- Use Conventional Commits for commit messages:
+  - `feat:` for new features
+  - `fix:` for bugfixes
+  - `docs:` for documentation
+  - `chore:` for maintenance tasks
+  - `test:` for adding or modifying tests
+
+## Mastra Node Implementation Guidelines
+
+- Keep nodes focused on a single responsibility
+- Implement proper error handling in each node
+- Document expected input and output contexts
+- Store sensitive information in environment variables
+- Follow existing patterns for database and API interactions
+
+## Testing
+
+- Use Jest for unit testing
+- Mock external dependencies (API calls, database)
+- Aim for at least 80% code coverage for core functionality
+
+## Security Guidelines
+
+- Never commit sensitive information (tokens, passwords)
+- Use GitHub Secrets for all credentials
+- Validate and sanitize all external inputs

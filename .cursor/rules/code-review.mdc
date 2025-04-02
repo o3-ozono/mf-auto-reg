@@ -1,0 +1,97 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Code review guidelines for the project
+globs: "**/*"
+alwaysApply: false
+---
+
+# Code Review Guidelines
+
+## General Guidelines
+
+- PR titles should follow [Conventional Commits](mdc:https:/www.conventionalcommits.org) format
+- Each PR should address a single concern
+- Large PRs should be broken down into smaller, focused PRs when possible
+- The PR description should explain what changes were made and why
+- Link to related issues using GitHub's issue linking syntax (e.g., "Closes #123")
+
+## Reviewer Responsibilities
+
+- Reviewers should respond to PRs within 24 hours
+- Focus on:
+  - Code correctness (does it work as intended?)
+  - Code quality (is it maintainable, readable, and performant?)
+  - Test coverage (are all scenarios covered?)
+  - Security (are there any security concerns?)
+  - Documentation (is the code well-documented?)
+
+## Code Review Checklist
+
+### Functionality
+- [ ] Does the code work as expected?
+- [ ] Does it handle edge cases and error conditions?
+- [ ] Are there any race conditions or performance issues?
+
+### Code Quality
+- [ ] Does the code follow project style guidelines?
+- [ ] Is the code DRY (Don't Repeat Yourself)?
+- [ ] Is the code maintainable and easy to understand?
+- [ ] Are functions and classes properly modularized?
+
+### Testing
+- [ ] Are there appropriate unit tests?
+- [ ] Do the tests cover edge cases?
+- [ ] Is the test coverage sufficient?
+- [ ] Do all tests pass?
+- [ ] Are there E2E tests for all user-facing features?
+- [ ] Do E2E tests cover the entire workflow from start to finish?
+- [ ] Are error scenarios tested in E2E environment?
+
+### Security
+- [ ] Are inputs properly validated?
+- [ ] Are sensitive data handled properly?
+- [ ] Are there any potential security vulnerabilities?
+
+### Documentation
+- [ ] Are functions, classes, and interfaces properly documented?
+- [ ] Is the documentation clear and accurate?
+- [ ] Are there any updates needed for README or other documentation files?
+
+## Common Pitfalls to Watch For
+
+### Node Implementation
+- Missing error handling in async functions
+- Improper context object manipulation
+- Using hardcoded values instead of configuration parameters
+- Not following the single responsibility principle
+
+### Workflow Definitions
+- Ambiguous or missing node connections
+- Conditions that don't handle all cases
+- Lack of error handling paths
+
+### Database Operations
+- Missing validation before database operations
+- Not using parameterized queries
+- Overly complex queries that could be simplified
+
+### Browser Automation
+- Fragile selectors that might break with UI changes
+- Missing waits for page elements to load
+- Not handling potential timeouts or failures
+- Insufficient error recovery in E2E test flows
+- Not properly isolating test data between test runs
+- Missing cleanup of test resources after tests complete
+
+## Review Process
+
+1. Reviewer assigns themselves to the PR
+2. Reviewer provides feedback using GitHub's review features
+3. Author addresses feedback and requests re-review
+4. Process repeats until all concerns are addressed
+5. Reviewer approves the PR
+6. Author or reviewer merges the PR after
