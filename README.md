@@ -1,6 +1,6 @@
 # mf-auto-reg (Mastra Version)
 
-An AI-powered tool that automatically registers ANA Pay and Rakuten Pay email notifications in MoneyForward.
+An AI-powered tool, built with the [Mastra framework](https://mastra.ai/), that automatically registers ANA Pay and Rakuten Pay email notifications in MoneyForward.
 
 ## Features
 
@@ -10,372 +10,73 @@ An AI-powered tool that automatically registers ANA Pay and Rakuten Pay email no
 - Transaction data deduplication management using Cloudflare D1
 - User interaction through Slack
 - Automated registration in MoneyForward using Playwright MCP in headless mode
-- Easy maintenance through declarative workflow definitions
-- Serverless execution through GitHub Actions
+- Declarative workflow definitions for maintainability
+- Serverless execution environment leveraging GitHub Actions
 
 ## System Requirements
 
-- GitHub account with Actions enabled
-- Node.js 18 or higher (for local development)
-- Google account with Gmail API enabled
+- GitHub account (for repository hosting and Actions)
+- Node.js 20 or higher (check `.nvmrc` or `package.json` engines field)
+- Google Cloud Project with Gmail API enabled (OAuth 2.0 Credentials)
 - Cloudflare account with Workers and D1 enabled
-- Slack workspace with a bot having appropriate permissions
-- MoneyForward account
+- Slack workspace with a bot token having appropriate permissions
+- MoneyForward account credentials
 
-## Installation
+## Installation & Setup
 
-1. Clone the repository:
-
+1.  **Clone the repository:**
     ```bash
     git clone https://github.com/o3-ozono/mf-auto-reg.git
+    cd mf-auto-reg
     ```
 
-2. Install dependencies:
-
+2.  **Install dependencies:** (This project uses npm, adjust if using pnpm or yarn)
     ```bash
-    # Using npm
     npm install
-
-    # Using yarn
-    yarn install
     ```
 
-## Setup
+3.  **Configure Environment Variables:**
+    *   Copy the example environment file:
+        ```bash
+        cp .env.development .env
+        ```
+    *   Edit the `.env` file and fill in the required credentials and IDs. You will need:
+        *   `GOOGLE_GENERATIVE_AI_API_KEY`: For the LLM provider (if using Google Gemini).
+        *   `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, `GMAIL_REFRESH_TOKEN`: For accessing Gmail API.
+        *   `SLACK_BOT_TOKEN`, `SLACK_CHANNEL_ID`: For Slack notifications and interactions.
+        *   `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`: For accessing Cloudflare API.
+        *   `D1_DATABASE_ID`: Your Cloudflare D1 database ID.
+        *   `MONEYFORWARD_EMAIL`, `MONEYFORWARD_PASSWORD`: For logging into MoneyForward.
+        *   *(Add any other necessary variables based on implementation)*
+    *   **Important:** Ensure the `.env` file is added to your `.gitignore` (it should be by default).
 
-### 1. Google Cloud Platform Configuration
+## Local Development
 
-1. Create a project in [Google Cloud Console](https://console.cloud.google.com/)
-2. Enable Gmail API
-3. Create OAuth 2.0 client credentials
-4. Download credentials and save as `credentials.json`
-
-### 2. Cloudflare D1 Configuration
-
-1. Create a D1 database in your Cloudflare dashboard
-2. Set up the following table:
-
-    ```sql
-    CREATE TABLE transactions (
-        id TEXT PRIMARY KEY,
-        transaction_date TIMESTAMP,
-        amount INTEGER,
-        store TEXT,
-        email_id TEXT UNIQUE,
-        status TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+1.  **Start the Mastra development server:**
+    ```bash
+    npm run dev
     ```
+2.  **Access the Mastra Dev UI:**
+    *   Open your browser and navigate to `http://localhost:3000` (or the port specified in the console output).
+    *   Here you can interact with your Mastra agents and workflows locally.
 
-3. Configure Cloudflare Workers to access your D1 database
+## Deployment & Execution (GitHub Actions)
 
-### 3. Slack Configuration
+- The primary execution method is via GitHub Actions workflows defined in the `.github/workflows/` directory (this directory might need to be created).
+- **Secrets Configuration:** All sensitive credentials (API keys, passwords listed in `.env`) must be configured as encrypted secrets in your GitHub repository settings under `Settings > Secrets and variables > Actions`.
+- **Workflow Trigger:** The workflow is typically triggered on a schedule (e.g., every 30 minutes) defined within the workflow YAML file.
+- **Monitoring:** Execution logs and status can be monitored directly from the Actions tab in your GitHub repository.
 
-1. Create a new app in [Slack API](https://api.slack.com/apps)
-2. Grant the following permissions:
-   - `chat:write`
-   - `reactions:read`
-   - `channels:history`
-3. Install the app to your workspace
+## Project Structure Overview
 
-### 4. GitHub Actions Configuration
-
-1. Create a workflow file at `.github/workflows/email-processor.yml`:
-
-    ```yaml
-    name: Process Emails
-    
-    on:
-      # Run every 10 minutes
-      schedule:
-        - cron: '*/10 * * * *'
-      
-      # Allow manual triggers
-      workflow_dispatch:
-    
-    jobs:
-      process:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v3
-          
-          - name: Setup Node.js
-            uses: actions/setup-node@v3
-            with:
-              node-version: '18'
-              cache: 'npm'
-          
-          - name: Install dependencies
-            run: npm ci
-          
-          - name: Setup Playwright
-            run: npx playwright install --with-deps chromium
-          
-          - name: Start Playwright MCP in headless mode
-            run: |
-              npx @playwright/mcp@latest --headless --port 8931 &
-              sleep 5
-          
-          - name: Run Mastra workflow
-            env:
-              # Environment variables from GitHub Secrets
-              GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
-              GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
-              GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
-              CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-              CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-              D1_DATABASE_NAME: ${{ secrets.D1_DATABASE_NAME }}
-              SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-              SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
-              MF_EMAIL: ${{ secrets.MF_EMAIL }}
-              MF_PASSWORD: ${{ secrets.MF_PASSWORD }}
-              PLAYWRIGHT_MCP_URL: "http://localhost:8931/sse"
-            run: node src/index.js
-    ```
-
-2. Add all required secrets in your GitHub repository:
-   - Go to your repository's Settings
-   - Navigate to Secrets and Variables > Actions
-   - Add all the required secrets (GMAIL_CLIENT_ID, etc.)
-
-### 5. Environment Variables
-
-Create a `.env` file with the following information (for local development):
-
-```env
-# Gmail API Settings
-GMAIL_CLIENT_ID=your_client_id
-GMAIL_CLIENT_SECRET=your_client_secret
-GMAIL_REFRESH_TOKEN=your_refresh_token
-
-# Cloudflare Settings
-CLOUDFLARE_ACCOUNT_ID=your_account_id
-CLOUDFLARE_API_TOKEN=your_api_token
-D1_DATABASE_NAME=your_database_name
-
-# Slack Settings
-SLACK_BOT_TOKEN=your_slack_bot_token
-SLACK_CHANNEL_ID=your_channel_id
-
-# MoneyForward Settings
-MF_EMAIL=your_email
-MF_PASSWORD=your_password
-```
-
-### 6. Playwright MCP Configuration
-
-Create a `mcp-config.json` file with the following content:
-
-```json
-{
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "@playwright/mcp@latest",
-        "--headless"
-      ]
-    }
-  }
-}
-```
-
-## Usage
-
-### Local Execution (for development)
-
-```bash
-# Run in development mode
-npm run dev
-
-# Debug mode
-npm run start:debug
-```
-
-### GitHub Actions Execution
-
-The workflow will automatically run based on the schedule defined in the workflow file. You can also manually trigger the workflow from the "Actions" tab in your GitHub repository.
-
-### Detailed Configuration
-
-Define your workflow in the `workflow.yaml` file:
-
-```yaml
-name: "MoneyForward Auto Registration"
-description: "Workflow to automatically register ANA Pay and Rakuten Pay email notifications in MoneyForward"
-
-nodes:
-  - name: "EmailPolling"
-    type: "GmailPoller"
-    config:
-      searchQueries:
-        - "[ANA Pay] ご利用のお知らせ"
-        - "[楽天ペイ] ご利用のお知らせ"
-      maxResults: 100
-      pollInterval: 60000
-    next: "EmailParser"
-
-  - name: "EmailParser"
-    type: "ConditionalRouter"
-    config:
-      routes:
-        - condition: "email.subject.includes('ANA Pay')"
-          next: "ANAPayParser"
-        - condition: "email.subject.includes('楽天ペイ')"
-          next: "RakutenPayParser"
-        - default: "End"
-
-  - name: "ANAPayParser"
-    type: "EmailContentParser"
-    config:
-      paymentService: "ANAPay"
-    next: "DuplicateCheck"
-
-  - name: "RakutenPayParser"
-    type: "EmailContentParser"
-    config:
-      paymentService: "RakutenPay"
-    next: "DuplicateCheck"
-
-  - name: "DuplicateCheck"
-    type: "CloudflareD1Query"
-    config:
-      operation: "checkDuplicate"
-      table: "transactions"
-      uniqueField: "email_id"
-    next:
-      routes:
-        - condition: "result.isDuplicate"
-          next: "End"
-        - default: "StoreTransaction"
-
-  - name: "StoreTransaction"
-    type: "CloudflareD1Query"
-    config:
-      operation: "insert"
-      table: "transactions"
-    next: "SlackNotification"
-
-  - name: "SlackNotification"
-    type: "SlackSender"
-    config:
-      messageTemplate: "transaction-notification.md"
-    next: "WaitForReaction"
-
-  - name: "WaitForReaction"
-    type: "SlackReactionWatcher"
-    config:
-      allowedReactions:
-        - "white_check_mark"
-        - "x"
-      timeout: 86400000  # 24 hours
-    next:
-      routes:
-        - condition: "reaction === 'white_check_mark'"
-          next: "MoneyForwardRegistration"
-        - condition: "reaction === 'x'"
-          next: "SkipRegistration"
-        - default: "End"
-
-  - name: "MoneyForwardRegistration"
-    type: "PlaywrightMCP"
-    config:
-      mode: "snapshot"
-      operationTemplate: "moneyforward-registration.yaml"
-    next: "UpdateTransactionStatus"
-
-  - name: "UpdateTransactionStatus"
-    type: "CloudflareD1Query"
-    config:
-      operation: "update"
-      table: "transactions"
-      updateField: "status"
-      value: "registered"
-    next: "RegistrationCompletionNotification"
-
-  - name: "RegistrationCompletionNotification"
-    type: "SlackSender"
-    config:
-      messageTemplate: "registration-complete.md"
-    next: "End"
-
-  - name: "SkipRegistration"
-    type: "CloudflareD1Query"
-    config:
-      operation: "update"
-      table: "transactions"
-      updateField: "status"
-      value: "skipped"
-    next: "End"
-
-  - name: "End"
-    type: "EndWorkflow"
-```
-
-### Slack Operations
-
-1. The bot notifies Slack when new transactions are detected
-2. Select operation with reactions:
-   - ✅ (`white_check_mark`): Register in MoneyForward
-   - ❌ (`x`): Skip
-3. Notification is sent after registration is complete
-
-## Development
-
-### Running Tests
-
-```bash
-# Run all tests
-npm test
-
-# Run with coverage
-npm run test:coverage
-```
-
-## Custom Node Development
-
-You can develop custom nodes by extending the Mastra framework:
-
-```typescript
-import { Node, NodeConfig } from 'mastra';
-
-interface EmailParserConfig extends NodeConfig {
-  paymentService: 'ANAPay' | 'RakutenPay';
-}
-
-export class EmailContentParser extends Node<EmailParserConfig> {
-  async execute(context: any) {
-    const { email } = context;
-    const { paymentService } = this.config;
-    
-    let transaction;
-    
-    if (paymentService === 'ANAPay') {
-      transaction = this.parseANAPayEmail(email);
-    } else if (paymentService === 'RakutenPay') {
-      transaction = this.parseRakutenPayEmail(email);
-    }
-    
-    return { ...context, transaction };
-  }
-  
-  private parseANAPayEmail(email: any) {
-    // ANA email parsing logic
-  }
-  
-  private parseRakutenPayEmail(email: any) {
-    // Rakuten Pay email parsing logic
-  }
-}
-```
-
-## Benefits of GitHub Actions
-
-- **Zero Infrastructure**: No need to maintain dedicated servers
-- **Cost Efficiency**: Free tier includes 2,000 minutes per month for private repositories
-- **Simplicity**: Built-in scheduling and secret management
-- **Reliability**: Managed execution environment with logs and notifications
-- **Integration**: Seamless integration with your GitHub repository
+- `src/mastra/`: Contains the core Mastra application logic.
+  - `agents/`: Defines the AI agents used in the workflows.
+  - `tools/`: Contains custom functions (tools) that agents can execute (e.g., interacting with Gmail, D1, Playwright).
+  - `workflows/`: Defines the sequence and logic of automated tasks.
+  - `index.ts`: Main entry point for Mastra configuration.
+- `docs/`: Project documentation (like this README and architecture).
+- `.github/workflows/`: GitHub Actions workflow definitions for automated execution.
+- `.cursor/`: Cursor specific settings, including rules and MCP configuration.
 
 ## License
 
