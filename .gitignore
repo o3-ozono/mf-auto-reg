@@ -5,3 +5,6 @@ dist
 .env.development
 .env
 *.db
+
+# Misc
+coverage/
