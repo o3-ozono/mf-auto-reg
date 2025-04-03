@@ -27,9 +27,10 @@ alwaysApply: true
 
 ## Development Workflow
 
+- **Issue Tracking**: Before starting any development work (new feature, bug fix, refactoring), create a GitHub Issue using the **`Design Doc` template** (`.github/ISSUE_TEMPLATE/design-doc.md`) to outline the plan and design.
 - **Branching**: 
-    - Create feature branches from `main`: `feature/short-description`
-    - Create bugfix branches: `fix/issue-description`
+    - Create feature branches from `main`: `feature/short-description` (link to the issue)
+    - Create bugfix branches: `fix/issue-description` (link to the issue)
 - **Commits**: Use Conventional Commits standard for *all* commit messages:
     - `feat:` New feature for the user
     - `fix:` Bug fix for the user
@@ -41,6 +42,7 @@ alwaysApply: true
     - Use scope (e.g., `feat(node): ...`) and body/footer where appropriate
 - **Pull Requests**: 
     - Create Pull Requests using the GitHub CLI: `gh pr create`.
+    - Link the PR to the corresponding GitHub Issue using keywords like `Closes #issue-number`, `Fixes #issue-number`, or `Resolves #issue-number` in the PR description to ensure the issue is automatically closed upon merging.
     - Follow detailed guidelines in `code-review.mdc` (title format, description, etc.).
 
 ## Testing Principles

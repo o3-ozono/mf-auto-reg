@@ -1,4 +1,4 @@
-# mf-auto-reg (Mastra Version)
+# mf-auto-reg
 
 An AI-powered tool, built with the [Mastra framework](https://mastra.ai/), that automatically registers ANA Pay and Rakuten Pay email notifications in MoneyForward.
 
@@ -16,7 +16,7 @@ An AI-powered tool, built with the [Mastra framework](https://mastra.ai/), that 
 ## System Requirements
 
 - GitHub account (for repository hosting and Actions)
-- Node.js 20 or higher (check `.nvmrc` or `package.json` engines field)
+- Node.js 22 or higher (check `.nvmrc` or `package.json` engines field)
 - Google Cloud Project with Gmail API enabled (OAuth 2.0 Credentials)
 - Cloudflare account with Workers and D1 enabled
 - Slack workspace with a bot token having appropriate permissions
@@ -57,7 +57,7 @@ An AI-powered tool, built with the [Mastra framework](https://mastra.ai/), that 
     npm run dev
     ```
 2.  **Access the Mastra Dev UI:**
-    *   Open your browser and navigate to `http://localhost:3000` (or the port specified in the console output).
+    *   Open your browser and navigate to `http://localhost:4111` (or the port specified in the console output).
     *   Here you can interact with your Mastra agents and workflows locally.
 
 ## Deployment & Execution (GitHub Actions)
