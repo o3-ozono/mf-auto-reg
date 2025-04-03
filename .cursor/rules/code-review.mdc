@@ -1,9 +1,4 @@
 ---
-description: 
-globs: 
-alwaysApply: true
----
----
 description: Code review guidelines for the project
 globs: "**/*"
 alwaysApply: false
@@ -13,7 +8,7 @@ alwaysApply: false
 
 ## General Guidelines
 
-- PR titles should follow [Conventional Commits](mdc:https:/www.conventionalcommits.org) format
+- PR titles should follow [Conventional Commits](mdc:https:/www.conventionalcommits.org) format defined in `basic.mdc`
 - Each PR should address a single concern
 - Large PRs should be broken down into smaller, focused PRs when possible
 - The PR description should explain what changes were made and why
@@ -25,9 +20,9 @@ alwaysApply: false
 - Focus on:
   - Code correctness (does it work as intended?)
   - Code quality (is it maintainable, readable, and performant?)
-  - Test coverage (are all scenarios covered?)
-  - Security (are there any security concerns?)
-  - Documentation (is the code well-documented?)
+  - Test coverage (are scenarios covered as per `development.mdc`?)
+  - Security (are there any security concerns as per `basic.mdc`?)
+  - Documentation (is the code documented as per `development.mdc`?)
 
 ## Code Review Checklist
 
@@ -42,24 +37,23 @@ alwaysApply: false
 - [ ] Is the code maintainable and easy to understand?
 - [ ] Are functions and classes properly modularized?
 
-### Testing
-- [ ] Are there appropriate unit tests?
+### Testing (Refer to `development.mdc` for strategy)
+- [ ] Are there appropriate tests?
 - [ ] Do the tests cover edge cases?
-- [ ] Is the test coverage sufficient?
+- [ ] Is the test coverage sufficient (e.g., >= 80% for core)?
 - [ ] Do all tests pass?
-- [ ] Are there E2E tests for all user-facing features?
-- [ ] Do E2E tests cover the entire workflow from start to finish?
-- [ ] Are error scenarios tested in E2E environment?
+- [ ] Are E2E tests present for user-facing features?
+- [ ] Do E2E tests cover the workflow and error scenarios?
 
-### Security
+### Security (Refer to `basic.mdc` for guidelines)
 - [ ] Are inputs properly validated?
 - [ ] Are sensitive data handled properly?
 - [ ] Are there any potential security vulnerabilities?
 
-### Documentation
-- [ ] Are functions, classes, and interfaces properly documented?
+### Documentation (Refer to `development.mdc` for guidelines)
+- [ ] Are functions, classes, and interfaces properly documented (TSDoc)?
 - [ ] Is the documentation clear and accurate?
-- [ ] Are there any updates needed for README or other documentation files?
+- [ ] Are README or other project documents updated if needed?
 
 ## Common Pitfalls to Watch For
 

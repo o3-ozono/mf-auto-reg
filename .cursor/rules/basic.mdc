@@ -1,0 +1,56 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Development rules for mf-auto-reg project
+globs: "**/*"
+alwaysApply: true
+---
+
+# mf-auto-reg Development Rules
+
+## Code Style & Structure
+
+- **TypeScript**: Use TypeScript for all JavaScript code
+- **Linting**: Follow ESLint and Prettier configurations strictly
+- **Formatting**: Ensure code is automatically formatted on save (using Prettier)
+- **Documentation**: Basic documentation standards (refer to `development.mdc` for details like TSDoc)
+
+## Project Architecture
+
+- Follow the Mastra framework architecture
+- Implement custom nodes by extending the Node class
+- Use declarative workflow definitions in YAML files
+
+## Development Workflow
+
+- **Branching**: 
+    - Create feature branches from `main`: `feature/short-description`
+    - Create bugfix branches: `fix/issue-description`
+- **Commits**: Use Conventional Commits standard for *all* commit messages:
+    - `feat:` New feature for the user
+    - `fix:` Bug fix for the user
+    - `docs:` Documentation changes only
+    - `style:` Formatting, missing semi-colons, etc; no code change
+    - `refactor:` Refactoring production code
+    - `test:` Adding missing tests, refactoring tests; no production code change
+    - `chore:` Updating build tasks, package manager configs, etc; no production code change
+    - Use scope (e.g., `feat(node): ...`) and body/footer where appropriate
+- **Pull Requests**: 
+    - Create Pull Requests using the GitHub CLI: `gh pr create`.
+    - Follow detailed guidelines in `code-review.mdc` (title format, description, etc.).
+
+## Testing Principles
+
+- **Tooling**: Use Jest for unit testing
+- **Coverage**: Aim for at least 80% code coverage for core functionality
+- **Strategy**: Refer to `development.mdc` for detailed testing strategy (Unit, Integration, E2E)
+- **Mocking**: Mock external dependencies (API calls, database) for unit/integration tests
+
+## Security Guidelines
+
+- Never commit sensitive information (tokens, passwords)
+- Use GitHub Secrets for all credentials
+- Validate and sanitize all external inputs
