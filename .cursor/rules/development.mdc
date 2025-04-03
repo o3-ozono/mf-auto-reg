@@ -13,7 +13,7 @@ alwaysApply: true
 
 ## Development Environment Setup
 
-- Node.js 18 or higher required
+- Node.js 22 or higher required
 - Use npm for package management
 - Setup local environment with `.env` file based on the template
 - For local development, run Playwright MCP separately with:
@@ -29,40 +29,6 @@ alwaysApply: true
 - Prefer functional programming patterns where appropriate
 - Use async/await for asynchronous operations
 
-## Mastra Node Development
-
-- Create nodes in `src/nodes/` directory
-- Follow this template for new nodes:
-
-```typescript
-import { Node, NodeConfig } from 'mastra';
-
-interface MyCustomNodeConfig extends NodeConfig {
-  // Define custom configuration properties
-  customProperty: string;
-}
-
-export class MyCustomNode extends Node<MyCustomNodeConfig> {
-  async execute(context: any) {
-    try {
-      // Node implementation
-      const result = await this.processData(context);
-      
-      // Return updated context
-      return { ...context, result };
-    } catch (error) {
-      // Error handling
-      console.error('Error in MyCustomNode:', error);
-      throw error;
-    }
-  }
-  
-  private async processData(context: any) {
-    // Implementation
-  }
-}
-```
-
 ## Error Handling
 
 - Use try/catch blocks in all async functions
@@ -72,29 +38,35 @@ export class MyCustomNode extends Node<MyCustomNodeConfig> {
 
 ## Testing Strategy
 
-- Unit tests for all nodes in `tests/nodes/`
-- Integration tests for workflows in `tests/workflows/`
-- **E2E tests are mandatory** for all user-facing features in `tests/e2e/`
-- E2E tests should be implemented using Playwright
-- E2E tests should cover the entire workflow from email detection to MoneyForward registration
-- Mock external dependencies (API calls, database) for unit and integration tests
-- Use real services with test accounts for E2E tests where possible
-- All test environments should be isolated and cleaned up after test runs
-- Test edge cases and error scenarios
+- **Overall Goal**: Ensure code correctness, prevent regressions, and cover critical paths.
+- **Unit Tests**: Use Jest for unit testing nodes and utilities (`tests/nodes/`, `tests/utils/`).
+  - Focus on isolated component logic.
+  - Mock external dependencies (API calls, database) extensively.
+  - Aim for high code coverage for core logic (refer to `basic.mdc` for target).
+- **Integration Tests**: Test interactions between nodes within workflows (`tests/workflows/`).
+  - Verify data flow and node connections.
+  - May involve mocking external systems but focus on internal integration.
+- **End-to-End (E2E) Tests**: Mandatory for all user-facing features (`tests/e2e/`).
+  - Implement using Playwright.
+  - Cover the *entire* workflow (e.g., email detection to MoneyForward registration).
+  - Use real services with dedicated test accounts where feasible.
+  - Test critical paths, common user flows, and essential error handling.
+- **Environment & Data**: All test environments must be isolated. Ensure proper test data setup and cleanup after runs.
+- **Coverage**: While aiming for the target in `basic.mdc`, prioritize testing critical and complex parts of the application.
+- **Agent Evaluation**: Utilize the `@mastra/evals` package for evaluating LLM agent performance where applicable.
+  - Consider metrics like relevancy, completeness, and tone consistency.
+  - Integrate evaluation steps into the testing pipeline for agents built with Mastra.
 
-## Documentation
+## Documentation Guidelines
 
-- Maintain workflow documentation in `docs/` directory
-- Document API endpoints and data structures
-- Keep architecture.md and README.md updated
-- Use TSDoc comments for all exported functions, classes, and interfaces
+- **TSDoc**: Use TSDoc comments for *all* exported functions, classes, interfaces, and types. Explain purpose, parameters, and return values.
+- **Workflow Documentation**: Maintain clear descriptions and diagrams for workflows in the `docs/` directory.
+- **API Documentation**: Document any internal or external API endpoints, including request/response formats and authentication.
+- **Project Documentation**: Keep `README.md` (overview, setup, usage) and `architecture.md` (high-level design) up-to-date.
+- **Clarity and Accuracy**: Ensure all documentation is clear, concise, and accurately reflects the current state of the code.
 
 ## Code Review Process
 
-- All PRs require at least one review
-- CI must pass (tests, lint) before merging
-- Reviewers should check for:
-  - Code quality and adherence to style
-  - Test coverage
-  - Documentation
-  - Security considerations
+- Refer to `code-review.mdc` for the detailed code review process and checklist.
+- All PRs require at least one approval before merging.
+- CI checks (linting, tests) must pass.
