@@ -16,6 +16,7 @@ alwaysApply: true
 - **TypeScript**: Use TypeScript for all JavaScript code
 - **Linting**: Follow ESLint and Prettier configurations strictly
 - **Formatting**: Ensure code is automatically formatted on save (using Prettier)
+- **Newline**: Ensure all files end with a single newline character
 - **Documentation**: Basic documentation standards (refer to `development.mdc` for details like TSDoc)
 
 ## Project Architecture
