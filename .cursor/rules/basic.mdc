@@ -27,7 +27,7 @@ alwaysApply: true
 
 ## Development Workflow
 
-- **Issue Tracking**: Before starting any development work (new feature, bug fix, refactoring), create a GitHub Issue using the **`Design Doc` template** (`.github/ISSUE_TEMPLATE/design-doc.md`) to outline the plan and design.
+- **Issue Tracking**: Before starting any development work (new feature, bug fix, refactoring), create a GitHub Issue to track the task. If the task involves significant design decisions, create a **Design Doc** markdown file in `docs/design/` (e.g., `docs/design/XXX-short-description.md`) outlining the plan and link it from the GitHub Issue.
 - **Branching**: 
     - Create feature branches from `main`: `feature/short-description` (link to the issue)
     - Create bugfix branches: `fix/issue-description` (link to the issue)
