@@ -8,3 +8,5 @@ dist
 
 # Misc
 coverage/
+.DS_Store
+.wrangler/state/
