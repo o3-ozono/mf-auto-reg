@@ -1,8 +1,4 @@
----
-description: 
-globs: 
-alwaysApply: true
----
+\
 ---
 description: Detailed development workflow and coding guidelines
 globs: "**/*.ts,**/*.js,**/*.tsx,**/*.jsx"
@@ -10,31 +6,6 @@ alwaysApply: true
 ---
 
 # Development Workflow & Coding Guidelines
-
-## Development Environment Setup
-
-- Node.js 22 or higher required
-- Use npm for package management
-- Setup local environment with `.env` file based on the template
-- For local development, run Playwright MCP separately with:
-  ```bash
-  npx @playwright/mcp@latest
-  ```
-
-## TypeScript Guidelines
-
-- Use strict type checking mode
-- Define interfaces for all data structures
-- Use type guards for runtime type checking
-- Prefer functional programming patterns where appropriate
-- Use async/await for asynchronous operations
-
-## Error Handling
-
-- Use try/catch blocks in all async functions
-- Log errors with appropriate context
-- Propagate errors to the Mastra engine where appropriate
-- Implement node-specific error recovery when possible
 
 ## Testing Strategy
 
@@ -57,17 +28,3 @@ alwaysApply: true
 - **Agent Evaluation**: Utilize the `@mastra/evals` package for evaluating LLM agent performance where applicable.
   - Consider metrics like relevancy, completeness, and tone consistency.
   - Integrate evaluation steps into the testing pipeline for agents built with Mastra. 
-
-## Documentation Guidelines
-
-- **TSDoc**: Use TSDoc comments for *all* exported functions, classes, interfaces, and types. Explain purpose, parameters, and return values.
-- **Workflow Documentation**: Maintain clear descriptions and diagrams for workflows in the `docs/` directory.
-- **API Documentation**: Document any internal or external API endpoints, including request/response formats and authentication.
-- **Project Documentation**: Keep `README.md` (overview, setup, usage) and `architecture.md` (high-level design) up-to-date.
-- **Clarity and Accuracy**: Ensure all documentation is clear, concise, and accurately reflects the current state of the code.
-
-## Code Review Process
-
-- Refer to `code-review.mdc` for the detailed code review process and checklist.
-- All PRs require at least one approval before merging.
-- CI checks (linting, tests) must pass.

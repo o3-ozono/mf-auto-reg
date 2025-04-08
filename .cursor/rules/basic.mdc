@@ -42,18 +42,5 @@ alwaysApply: true
     - Use scope (e.g., `feat(node): ...`) and body/footer where appropriate
 - **Pull Requests**: 
     - Create Pull Requests using the GitHub CLI: `gh pr create`.
-    - Link the PR to the corresponding GitHub Issue using keywords like `Closes #issue-number`, `Fixes #issue-number`, or `Resolves #issue-number` in the PR description to ensure the issue is automatically closed upon merging.
-    - Follow detailed guidelines in `code-review.mdc` (title format, description, etc.).
-
-## Testing Principles
-
-- **Tooling**: Use Jest for unit testing
-- **Coverage**: Aim for at least 80% code coverage for core functionality
-- **Strategy**: Refer to `development.mdc` for detailed testing strategy (Unit, Integration, E2E)
-- **Mocking**: Mock external dependencies (API calls, database) for unit/integration tests
-
-## Security Guidelines
-
-- Never commit sensitive information (tokens, passwords)
-- Use GitHub Secrets for all credentials
-- Validate and sanitize all external inputs
+    - Link the PR to the corresponding GitHub Issue using keywords like `Closes #issue-number`, `Fixes #issue-number`, or `Resolves #issue-number` in the PR description.
+    - Follow detailed guidelines in `code-review.mdc`

@@ -1,0 +1,23 @@
+# Top-level configuration
+name = "mf-auto-reg" # Your worker's name
+compatibility_date = "2024-04-08" # Use a recent date
+
+# D1 database binding for production (replace with your actual production binding if needed)
+# [[d1_databases]]
+# binding = "DB" # Binding name used in your Worker code (e.g., env.DB)
+# database_name = "mf-auto-reg-prod" # Your production D1 database name
+# database_id = "YOUR_PRODUCTION_DB_ID" # Get this via `wrangler d1 info <db_name>`
+
+# D1 database binding specifically for local integration testing
+[[d1_databases]]
+binding = "DB" # Should match DATABASE_BINDING_NAME in test setup
+database_name = "mf-auto-reg-test-db" # Should match DATABASE_NAME in test setup
+# database_id is not strictly needed for --local, but good practice to define
+# We can let wrangler manage the local file implicitly, or create one:
+# wrangler d1 create mf-auto-reg-test-db --location=test-location (location doesn't matter for local)
+# Then get the ID: wrangler d1 info mf-auto-reg-test-db
+database_id = "mock-test-id-placeholder" # Replace if you create one, otherwise wrangler handles local file mapping
+
+# You might need other configurations like build steps, kv_namespaces, etc.
+# [build]
+# command = "npm run build" # Example build command 
